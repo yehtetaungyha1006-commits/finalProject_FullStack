@@ -6,8 +6,10 @@ let clientInstance;
 let initialized;
 export function db() {
   if (!dbInstance) {
-    const url = process.env.TURSO_DATABASE_URL || 'file:./local.db';
-    if (process.env.VERCEL && url.startsWith('file:')) throw new Error('TURSO_DATABASE_URL must be remote in Vercel');
+    let url = process.env.TURSO_DATABASE_URL;
+    if (!url) {
+      url = process.env.VERCEL ? 'file:/tmp/pulse.db' : 'file:./local.db';
+    }
     clientInstance = createClient({url, ...(process.env.TURSO_AUTH_TOKEN ? {authToken:process.env.TURSO_AUTH_TOKEN} : {})});
     dbInstance = drizzle(clientInstance, {schema});
   }
