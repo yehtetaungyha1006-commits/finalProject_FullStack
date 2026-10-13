@@ -1,0 +1,24 @@
+name: Verify full-stack project
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Check and build
+        run: npm run verify
+      - name: API smoke test (local SQLite)
+        run: |
+          export JWT_SECRET=ci-smoke-test-secret-please-never-use-in-production-123456
+          export TURSO_DATABASE_URL=file:./ci-test.db
+          node server/local.js &
+          API_PID=$!
+          trap 'kill $API_PID || true' EXIT
+          node scripts/smoke-test.js
