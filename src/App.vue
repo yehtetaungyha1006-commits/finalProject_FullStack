@@ -10,7 +10,7 @@ const editingId=ref(null),editText=ref(''),commentTexts=ref({}),expanded=ref({})
 const profileName=ref(''),profileBio=ref(''),profileEditing=ref(false);
 const dateFormat=v=>new Date(v).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'});
 const initials=name=>(name||'?').trim().slice(0,1).toUpperCase();
-const getColor=id=>['#f8c6ab','#c8c0fc','#b9dfd3','#d4dbfa','#f2c6d8','#bfe4ec'][Math.abs(id||0)%6];
+const getColor=id=>['linear-gradient(135deg,#38bdf8,#6366f1)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f43f5e,#fb923c)','linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#eab308,#f97316)','linear-gradient(135deg,#06b6d4,#3b82f6)'][Math.abs(id||0)%6];
 const filtered=computed(()=>posts.value.filter(p=>(activeTab.value!=='mine'||p.userId===me.value?.id)&&`${p.content} ${p.authorName}`.toLowerCase().includes(query.value.toLowerCase())));
 const totalLikes=computed(()=>posts.value.filter(p=>p.userId===me.value?.id).reduce((n,p)=>n+p.likeCount,0));
 const mineCount=computed(()=>posts.value.filter(p=>p.userId===me.value?.id).length);
