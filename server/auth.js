@@ -8,12 +8,12 @@ export async function issueToken(userId) {
 }
 export async function authenticate(req,res,next) {
   const token = /^Bearer\s+(.+)$/i.exec(req.headers.authorization || '')?.[1];
-  if (!token) return res.status(401).json({error:'กรุณาเข้าสู่ระบบ'});
+  if (!token) return res.status(401).json({error:'Please sign in to continue'});
   try {
     const {payload} = await jwtVerify(token,secret(),{algorithms:['HS256']});
     const id = Number(payload.sub);
     if (!Number.isSafeInteger(id) || id <= 0) throw new Error('Invalid user');
     req.userId=id;
     next();
-  } catch { res.status(401).json({error:'เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่'}); }
+  } catch { res.status(401).json({error:'Session expired, please sign in again'}); }
 }

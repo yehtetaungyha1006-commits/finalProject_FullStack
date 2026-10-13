@@ -4,7 +4,7 @@ export const setToken=t=>t?localStorage.setItem(TOKEN_KEY,t):localStorage.remove
 export async function request(path,{method='GET',body}={}) {
  const response=await fetch(`/api${path}`,{method,headers:{...(body?{'Content-Type':'application/json'}:{}),...(getToken()?{Authorization:`Bearer ${getToken()}`}:{})},...(body?{body:JSON.stringify(body)}:{})});
  if(response.status===204)return null;
- let json;try{json=await response.json();}catch{throw new Error('ไม่สามารถอ่านข้อมูลจากเซิร์ฟเวอร์');}
- if(!response.ok)throw new Error(json.error||'มีข้อผิดพลาดเกิดขึ้น');
+ let json;try{json=await response.json();}catch{throw new Error('Unable to parse server response');}
+ if(!response.ok)throw new Error(json.error||'An error occurred');
  return json.data;
 }
