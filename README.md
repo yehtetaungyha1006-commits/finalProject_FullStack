@@ -1,4 +1,4 @@
-# Pulse Social — Final Project
+# ONE PLUS ONE EQUALS THREE — Final Project
 
 โปรเจกต์ Social Media Website แบบ Full-stack ตามโจทย์ Final Project
 
